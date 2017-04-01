@@ -13,7 +13,7 @@ class BidirectionalLSTM(nn.Module):
 
     def forward(self, input):
         gpu_ids = None
-        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu >= 1:
             gpu_ids = range(self.ngpu)
         recurrent, _ = nn.parallel.data_parallel(
             self.rnn, input, gpu_ids)  # [T, b, h * 2]
@@ -77,8 +77,7 @@ class CRNN(nn.Module):
         )
 
     def forward(self, input):
-        gpu_ids = None
-        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu > 1:
+        if isinstance(input.data, torch.cuda.FloatTensor) and self.ngpu >= 1:
             gpu_ids = range(self.ngpu)
 
         # conv features

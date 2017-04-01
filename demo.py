@@ -19,6 +19,7 @@ converter = utils.strLabelConverter(alphabet)
 
 transformer = dataset.resizeNormalize((100, 32))
 image = Image.open(img_path).convert('L')
+
 image = transformer(image).cuda()
 image = image.view(1, *image.size())
 image = Variable(image)
